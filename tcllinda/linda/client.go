@@ -4,6 +4,7 @@ import (
     "encoding/json"
     "flag"
     "fmt"
+    "reflect"
     "net"
     "os"
     "strconv"
@@ -70,6 +71,7 @@ func main() {
     if *outFlag != "" {
         tuple := parseTuple(strings.Fields(*outFlag))
         req = map[string]interface{}{"cmd": "out", "tuple": tuple}
+        fmt.Printf("Insert Tuple: ")
     } else if *inFlag != "" {
         tuple := parseTuple(strings.Fields(*inFlag))
         // convert "?" to nil for wildcard
@@ -79,6 +81,7 @@ func main() {
             }
         }
         req = map[string]interface{}{"cmd": "in", "pattern": tuple}
+        fmt.Printf("Delete Tuple: ")
     } else if *rdFlag != "" {
         tuple := parseTuple(strings.Fields(*rdFlag))
         for i, v := range tuple {
@@ -87,16 +90,19 @@ func main() {
             }
         }
         req = map[string]interface{}{"cmd": "rd", "pattern": tuple}
+        fmt.Printf("Read Tuple: ")
     } else {
         fmt.Println("Error: must specify one of -out, -in, or -rd")
         os.Exit(1)
     }
 
+    // Endcode request to send
     if err := encoder.Encode(req); err != nil {
         fmt.Println("Failed to send request:", err)
         os.Exit(1)
     }
 
+    // Decode request to receive
     var resp map[string]interface{}
     if err := decoder.Decode(&resp); err != nil {
         fmt.Println("Failed to read response:", err)
@@ -108,7 +114,9 @@ func main() {
     } else if result, ok := resp["result"]; ok && result != nil {
         fmt.Println("Result:", result)
     } else {
-        fmt.Println("OK")
+        for i, v := range tuple{
+            fmt.Printf("%s %v, ", reflect.TypeOf(v), v)
+        }
     }
 }
 
