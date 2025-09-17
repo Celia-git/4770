@@ -1,10 +1,8 @@
-Assignment 1: Distributed Tuple Space (gnment)
+Assignment 1: Distributed Tuple Space 
 
 Overview
 
-This project, "Listen Linda!", is an implementation of a distributed tuple space system inspired by the Linda coordination language. The system allows remote clients to coordinate by performing operations on a shared data space called a tuple space.
-
-This project was built to explore core concepts in distributed systems, including message passing, synchronization, and shared data spaces.
+This project, "Listen Linda!", is an implementation of a distributed tuple space system inspired by the Linda coordination language. The system allows remote clients to coordinate by performing operations on a shared tuple space.
 
 Features
 
@@ -46,8 +44,6 @@ Concurrency
 
 The Go implementation uses goroutines to handle each client connection concurrently. A mutex is used to ensure safe access to the shared tuple space data structure. A condition variable is used to handle blocking rd and in operations, allowing waiting clients to be notified when a new tuple is added that might satisfy their request.
 
-Getting Started
-
 Prerequisites
 
     Go 1.18+
@@ -59,18 +55,18 @@ Building and Running
     Build the project:
 
     Start the server:
-    Open a terminal and run:
+    Open a terminal and run: ```go run server.go &```
 
     The server will start and listen on port 8080.
 
     Run a client:
     Open another terminal and use the client.go executable to interact with the server.
 
-        Add a tuple:
+        Add a tuple: ```go run client.go -out '("foo", "bar")' ```
 
-        Read a tuple:
+        Read a tuple: ```go run client.go -rd '("foo", ?)```
 
-        Read and remove a tuple:
+        Read and remove a tuple: ```go run client.go -in '("foo", ?)'```
 
 Running Test Cases
 
@@ -78,11 +74,23 @@ The test_cases.sh script demonstrates a series of interactions between multiple 
 
 To run the tests:
 
-    Make sure the server is running.
+    compile the client and server scripts using ```make all```
 
-    In a separate terminal, run the test script:
+    Kill the server if it is running.
+
+    In a separate terminal, run the test script: ```./test_cases.sh```
 
     This will execute a sequence of client commands and print the output, which can be compared against expected behavior.
+    
+To run the Makefile:
+    
+    Kill the server if it is running
+    
+    ```make clean``` removes any executables.
+    
+    ```make all``` compiles executables.
+    
+    ```make test``` runs the test file.
 
 Deliverables
 

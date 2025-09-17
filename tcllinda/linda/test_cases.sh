@@ -34,35 +34,32 @@ else
     exit 1
 fi
 
-# --- 2. Test Basic OUT and RD Operations ---
-echo_info "\n--- Test Case 1: OUT followed by RD ---"
-echo "Client 1: Writing tuple {STRING {Hello}} {INT64 123}..."
-$CLIENT -OUT "{{STRING {Hello}} {INT64 123}}"
+# --- 2. Test Basic out and RD Operations ---
+echo_info "\n--- Test Case 1: out followed by rd ---"
+echo "Client 1: Writing tuple STRING:Hello INT64:123..."
+$CLIENT -out "STRING:Hello INT64:123"
 sleep 0.5
 
 echo "Client 2: Reading tuple with exact match..."
-$CLIENT -RD "{{STRING {Hello}} {INT64 123}}"
+$CLIENT -rd "STRING:Hello INT64:123"
 
 # --- 3. Test RD with a Wildcard ---
-echo_info "\n--- Test Case 2: RD with a Wildcard ---"
-echo "Client 3: Reading tuple using wildcard {STRING {Hello}} {INT64 ?}..."
-$CLIENT -RD "{{STRING {Hello}} {INT64 ?}}"
+echo_info "\n--- Test Case 2: rd with a Wildcard ---"
+echo "Client 3: Reading tuple using wildcard STRING:Hello INT64:?..."
+$CLIENT -rd "STRING:Hello INT64:?"
 
-# --- 4. Test IN (Read and Remove) ---
-echo_info "\n--- Test Case 3: IN (Read and Remove) ---"
-echo "Client 4: Writing a new tuple {STRING {Delete Me}} {INT64 999}..."
-$CLIENT -OUT "{{STRING {Delete Me}} {INT64 999}}"
+# --- 4. Test in (Read and Remove) ---
+echo_info "\n--- Test Case 3: in (Read and Remove) ---"
+echo "Client 4: Writing a new tuple STRING:Delete Me INT64:999..."
+$CLIENT -out "STRING:Delete Me INT64:999"
 sleep 0.5
 
-echo "Client 5: Performing IN to delete the tuple..."
-$CLIENT -IN "{{STRING {Delete Me}} {INT64 999}}"
+echo "Client 5: Performing in to delete the tuple..."
+$CLIENT -in "STRING:Delete Me INT64:999"
 
 echo "Client 6: Trying to read the deleted tuple (should fail or block)..."
-# This RD command should hang if the IN was successful, or return an empty tuple.
-# A timeout is useful here to prevent the script from hanging indefinitely.
-# In a real test, you might use a tool like 'timeout' if available.
-# For this example, we'll just run it and observe.
-$CLIENT -RD "{{STRING {Delete Me}} {INT64 999}}" &
+# This RD command should hang if the in was successful, or return an empty tuple.
+$CLIENT -rd "STRING:Delete Me INT64:999" &
 RD_PID=$!
 sleep 2
 if kill -0 $RD_PID > /dev/null 2>&1; then
@@ -75,22 +72,22 @@ fi
 # Wait for the background process to finish before proceeding
 wait $RD_PID 2>/dev/null
 
-# --- 5. Test Blocking IN with a Concurrent OUT ---
-echo_info "\n--- Test Case 4: Blocking IN and Concurrent OUT ---"
-echo "Client 7: Performing a blocking IN on {STRING {Blocker}} {INT64 ?}..."
-$CLIENT -IN "{{STRING {Blocker}} {INT64 ?}}" &
+# --- 5. Test Blocking in with a Concurrent out ---
+echo_info "\n--- Test Case 4: Blocking in and Concurrent out ---"
+echo "Client 7: Performing a blocking in on STRING:Blocker INT64:?..."
+$CLIENT -in "STRING:Blocker INT64:?" &
 BLOCKING_PID=$!
 sleep 1 # Give the blocking client a moment to connect
 
-echo "Client 8: Writing a tuple that satisfies the blocking IN request..."
-$CLIENT -OUT "{{STRING {Blocker}} {INT64 456}}"
+echo "Client 8: Writing a tuple that satisfies the blocking in request..."
+$CLIENT -out "STRING:Blocker INT64:456"
 
 sleep 1 # Wait for the blocking client to unblock
 
 if ! kill -0 $BLOCKING_PID > /dev/null 2>&1; then
-    echo_success "The blocking IN command successfully unblocked and exited."
+    echo_success "The blocking in command successfully unblocked and exited."
 else
-    echo_error "The blocking IN command did not unblock. Something went wrong."
+    echo_error "The blocking in command did not unblock. Something went wrong."
     kill $BLOCKING_PID
 fi
 

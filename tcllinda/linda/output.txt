@@ -1,0 +1,40 @@
+./test_cases.sh
+[1;34mStarting the tuple space server...[0m
+[1;32mServer started with PID: 6059[0m
+[1;34m
+--- Test Case 1: out followed by rd ---[0m
+Client 1: Writing tuple STRING:Hello INT64:123...
+Tuple with string "Hello" and int64 123 stored in tuple space
+OK
+Client 2: Reading tuple with exact match...
+Tuple with string "Hello" and int64 123 read (but not removed) from tuple space
+Result: [Hello 123]
+[1;34m
+--- Test Case 2: rd with a Wildcard ---[0m
+Client 3: Reading tuple using wildcard STRING:Hello INT64:?...
+Tuple with string "Hello" and wildcard read (but not removed) from tuple space
+Result: [Hello 123]
+[1;34m
+--- Test Case 3: in (Read and Remove) ---[0m
+Client 4: Writing a new tuple STRING:Delete Me INT64:999...
+Tuple with string "Delete" and string "Me" and int64 999 stored in tuple space
+OK
+Client 5: Performing in to delete the tuple...
+Tuple with string "Delete" and string "Me" and int64 999 deleted (consumed) from tuple space
+Result: [Delete Me 999]
+Client 6: Trying to read the deleted tuple (should fail or block)...
+Tuple with string "Delete" and string "Me" and int64 999 read (but not removed) from tuple space
+[1;32mThe RD command is correctly blocking. Killing it now.[0m
+[1;34m
+--- Test Case 4: Blocking in and Concurrent out ---[0m
+Client 7: Performing a blocking in on STRING:Blocker INT64:?...
+Tuple with string "Blocker" and wildcard deleted (consumed) from tuple space
+Client 8: Writing a tuple that satisfies the blocking in request...
+Tuple with string "Blocker" and int64 456 stored in tuple space
+OK
+Result: [Blocker 456]
+[1;32mThe blocking in command successfully unblocked and exited.[0m
+[1;34m
+--- Cleaning up ---[0m
+Killing the server with PID: 6059
+[1;32mTest script finished.[0m

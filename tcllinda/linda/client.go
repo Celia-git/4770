@@ -1,180 +1,186 @@
 package main
 
 import (
-    "encoding/json"
-    "flag"
-    "fmt"
-    "net"
-    "os"
-    "strconv"
-    "strings"
+	"encoding/json"
+	"flag"
+	"fmt"
+	"net"
+	"os"
+	"strconv"
+	"strings"
 )
 
 // Preprocess input like '("foo", "bar")' into []string{"STRING:foo", "STRING:bar"}
 func preprocessTupleArg(arg string) []string {
-    arg = strings.TrimSpace(arg)
-    if strings.HasPrefix(arg, "(") && strings.HasSuffix(arg, ")") {
-        arg = arg[1 : len(arg)-1]
-        parts := strings.Split(arg, ",")
-        var result []string
-        for _, part := range parts {
-            part = strings.TrimSpace(part)
-            part = strings.Trim(part, "\"") // Remove surrounding quotes if present
-            if part == "?" {
-                result = append(result, "?")
-            } else {
-                result = append(result, "STRING:"+part)
-            }
-        }
-        return result
-    }
-    // If not parenthesized, fallback (assume already well-formed)
-    return strings.Fields(arg)
+	arg = strings.TrimSpace(arg)
+	if strings.HasPrefix(arg, "(") && strings.HasSuffix(arg, ")") {
+		arg = arg[1 : len(arg)-1]
+		parts := strings.Split(arg, ",")
+		var result []string
+		for _, part := range parts {
+			part = strings.TrimSpace(part)
+			part = strings.Trim(part, "\"") // Remove surrounding quotes if present
+			if part == "?" {
+				result = append(result, "?")
+			} else {
+				result = append(result, "STRING:"+part)
+			}
+		}
+		return result
+	}
+	// If not parenthesized, fallback (assume already well-formed)
+	return strings.Fields(arg)
 }
 
 // Parse tuple arguments into a slice of interface{}
 func parseTuple(args []string) []interface{} {
-    tuple := make([]interface{}, 0, len(args))
-    for _, arg := range args {
-        if arg == "?" {
-            tuple = append(tuple, "?")
-            continue
-        }
-        parts := strings.SplitN(arg, ":", 2)
-        if len(parts) != 2 {
-            tuple = append(tuple, arg)
-            continue
-        }
-        typ, val := parts[0], parts[1]
-        switch typ {
-        case "STRING":
-            tuple = append(tuple, val)
-        case "INT64":
-            i, err := strconv.ParseInt(val, 10, 64)
-            if err != nil {
-                fmt.Println("Error parsing INT64:", err)
-                os.Exit(1)
-            }
-            tuple = append(tuple, i)
-        case "FLOAT64":
-            f, err := strconv.ParseFloat(val, 64)
-            if err != nil {
-                fmt.Println("Error parsing FLOAT64:", err)
-                os.Exit(1)
-            }
-            tuple = append(tuple, f)
-        default:
-            tuple = append(tuple, val)
-        }
-    }
-    return tuple
+	tuple := make([]interface{}, 0, len(args))
+	for _, arg := range args {
+		if arg == "?" {
+			tuple = append(tuple, nil) // Treat "?" as a nil value (wildcard)
+			continue
+		}
+		parts := strings.SplitN(arg, ":", 2)
+		if len(parts) != 2 {
+			tuple = append(tuple, arg)
+			continue
+		}
+		typ, val := parts[0], parts[1]
+		switch typ {
+		case "STRING":
+			tuple = append(tuple, val)
+		case "INT64":
+			if val == "?" {
+				tuple = append(tuple, nil)
+			} else {
+				i, err := strconv.ParseInt(val, 10, 64)
+				if err != nil {
+					fmt.Println("Error parsing INT64:", err)
+					os.Exit(1)
+				}
+				tuple = append(tuple, i)
+			}
+		case "FLOAT64":
+			if val == "?" {
+				tuple = append(tuple, nil)
+			} else {
+				f, err := strconv.ParseFloat(val, 64)
+				if err != nil {
+					fmt.Println("Error parsing FLOAT64:", err)
+					os.Exit(1)
+				}
+				tuple = append(tuple, f)
+			}
+		default:
+			tuple = append(tuple, val)
+		}
+	}
+	return tuple
 }
 
 // Print operation and tuple values in natural language
 func describeTuple(op string, tuple []interface{}) {
-    desc := ""
-    for i, v := range tuple {
-        if i > 0 {
-            desc += " and "
-        }
-        switch val := v.(type) {
-        case string:
-            if val == "?" {
-                desc += "wildcard"
-            } else {
-                desc += fmt.Sprintf("string \"%v\"", val)
-            }
-        case int64:
-            desc += fmt.Sprintf("int64 %d", val)
-        case float64:
-            desc += fmt.Sprintf("float64 %v", val)
-        case nil:
-            desc += "wildcard"
-        default:
-            desc += fmt.Sprintf("%T %v", v, v)
-        }
-    }
-    switch op {
-    case "out":
-        fmt.Printf("Tuple with %s stored in tuple space\n", desc)
-    case "in":
-        fmt.Printf("Tuple with %s deleted (consumed) from tuple space\n", desc)
-    case "rd":
-        fmt.Printf("Tuple with %s read (but not removed) from tuple space\n", desc)
-    }
+	desc := ""
+	for i, v := range tuple {
+		if i > 0 {
+			desc += " and "
+		}
+		switch val := v.(type) {
+		case string:
+			if val == "?" {
+				desc += "wildcard"
+			} else {
+				desc += fmt.Sprintf("string \"%v\"", val)
+			}
+		case int64:
+			desc += fmt.Sprintf("int64 %d", val)
+		case float64:
+			desc += fmt.Sprintf("float64 %v", val)
+		case nil:
+			desc += "wildcard"
+		default:
+			desc += fmt.Sprintf("%T %v", v, v)
+		}
+	}
+	switch op {
+	case "out":
+		fmt.Printf("Tuple with %s stored in tuple space\n", desc)
+	case "in":
+		fmt.Printf("Tuple with %s deleted (consumed) from tuple space\n", desc)
+	case "rd":
+		fmt.Printf("Tuple with %s read (but not removed) from tuple space\n", desc)
+	}
 }
 
 func main() {
-    host := flag.String("host", "localhost:8080", "server address")
+	host := flag.String("host", "localhost:8080", "server address")
+	outFlag := flag.String("out", "", "Tuple to insert, e.g. 'STRING:foo INT64:42' or '(\"foo\", \"bar\")'")
+	inFlag := flag.String("in", "", "Tuple template for deletion, e.g. 'STRING:foo ?' or '(\"foo\", \"bar\")'")
+	rdFlag := flag.String("rd", "", "Tuple template for read, e.g. 'STRING:foo ?' or '(\"foo\", \"bar\")'")
 
-    outFlag := flag.String("out", "", "Tuple to insert, e.g. 'STRING:foo INT64:42' or '(\"foo\", \"bar\")'")
-    inFlag := flag.String("in", "", "Tuple template for deletion, e.g. 'STRING:foo ?' or '(\"foo\", \"bar\")'")
-    rdFlag := flag.String("rd", "", "Tuple template for read, e.g. 'STRING:foo ?' or '(\"foo\", \"bar\")'")
+	flag.Parse()
 
-    flag.Parse()
+	// Connect to server
+	conn, err := net.Dial("tcp", *host)
+	if err != nil {
+		fmt.Println("Unable to connect:", err)
+		os.Exit(1)
+	}
+	defer conn.Close()
 
-    conn, err := net.Dial("tcp", *host)
-    if err != nil {
-        fmt.Println("Unable to connect:", err)
-        os.Exit(1)
-    }
-    defer conn.Close()
+	// Set up JSON encoder and decoder for communication
+	encoder := json.NewEncoder(conn)
+	decoder := json.NewDecoder(conn)
 
-    encoder := json.NewEncoder(conn)
-    decoder := json.NewDecoder(conn)
+	var req map[string]interface{}
+	var tuple []interface{}
+	var op string
 
-    var req map[string]interface{}
-    var tuple []interface{}
-    var op string
+	// Process the specified flags and prepare the tuple
+	switch {
+	case *outFlag != "":
+		fields := preprocessTupleArg(*outFlag)
+		tuple = parseTuple(fields)
+		req = map[string]interface{}{"cmd": "out", "tuple": tuple}
+		op = "out"
+	case *inFlag != "":
+		fields := preprocessTupleArg(*inFlag)
+		tuple = parseTuple(fields)
+		req = map[string]interface{}{"cmd": "in", "pattern": tuple}
+		op = "in"
+	case *rdFlag != "":
+		fields := preprocessTupleArg(*rdFlag)
+		tuple = parseTuple(fields)
+		req = map[string]interface{}{"cmd": "rd", "pattern": tuple}
+		op = "rd"
+	default:
+		fmt.Println("Error: must specify one of -out, -in, or -rd")
+		os.Exit(1)
+	}
 
-    if *outFlag != "" {
-        fields := preprocessTupleArg(*outFlag)
-        tuple = parseTuple(fields)
-        req = map[string]interface{}{"cmd": "out", "tuple": tuple}
-        op = "out"
-    } else if *inFlag != "" {
-        fields := preprocessTupleArg(*inFlag)
-        tuple = parseTuple(fields)
-        for i, v := range tuple {
-            if s, ok := v.(string); ok && s == "?" {
-                tuple[i] = nil
-            }
-        }
-        req = map[string]interface{}{"cmd": "in", "pattern": tuple}
-        op = "in"
-    } else if *rdFlag != "" {
-        fields := preprocessTupleArg(*rdFlag)
-        tuple = parseTuple(fields)
-        for i, v := range tuple {
-            if s, ok := v.(string); ok && s == "?" {
-                tuple[i] = nil
-            }
-        }
-        req = map[string]interface{}{"cmd": "rd", "pattern": tuple}
-        op = "rd"
-    } else {
-        fmt.Println("Error: must specify one of -out, -in, or -rd")
-        os.Exit(1)
-    }
+	// Describe the tuple operation
+	describeTuple(op, tuple)
 
-    describeTuple(op, tuple)
+	// Send the request to the server
+	if err := encoder.Encode(req); err != nil {
+		fmt.Println("Failed to send request:", err)
+		os.Exit(1)
+	}
 
-    if err := encoder.Encode(req); err != nil {
-        fmt.Println("Failed to send request:", err)
-        os.Exit(1)
-    }
+	// Read the server's response
+	var resp map[string]interface{}
+	if err := decoder.Decode(&resp); err != nil {
+		fmt.Println("Failed to read response:", err)
+		os.Exit(1)
+	}
 
-    var resp map[string]interface{}
-    if err := decoder.Decode(&resp); err != nil {
-        fmt.Println("Failed to read response:", err)
-        os.Exit(1)
-    }
-
-    if errStr, ok := resp["error"]; ok && errStr != nil {
-        fmt.Println("Error:", errStr)
-    } else if result, ok := resp["result"]; ok && result != nil {
-        fmt.Println("Result:", result)
-    } else {
-        fmt.Println("OK")
-    }
+	// Handle the server's response
+	if errStr, ok := resp["error"]; ok && errStr != nil {
+		fmt.Println("Error:", errStr)
+	} else if result, ok := resp["result"]; ok && result != nil {
+		fmt.Println("Result:", result)
+	} else {
+		fmt.Println("OK")
+	}
 }
+

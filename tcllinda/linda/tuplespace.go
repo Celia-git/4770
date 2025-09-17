@@ -172,4 +172,4 @@ func (ts *TupleSpace) addWaiter(pattern []interface{}) chan []interface{} {
 	return waitChan
 }
 
-// notifyWaiters notifies all waiters that
+
