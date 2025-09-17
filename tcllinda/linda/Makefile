@@ -1,32 +1,30 @@
-# Makefile for Linda Tuple Space in Go
+# Define the Go programs to build
+SERVER_BIN = server
+CLIENT_BIN = client
 
-.PHONY: all build_server build_client run_server run_client clean test
+# Define the source files
+SERVER_SRC = server.go
+CLIENT_SRC = client.go
+TEST_SCRIPT = test_cases.sh
 
-BINDIR := bin
-SERVER := $(BINDIR)/server
-CLIENT := $(BINDIR)/client
+# The 'all' target is the default one
+all: $(SERVER_BIN) $(CLIENT_BIN)
 
-all: build_server build_client
+# Target to build the server executable
+$(SERVER_BIN): $(SERVER_SRC)
+	go build -o $(SERVER_BIN) $(SERVER_SRC)
 
-build_server:
-	@mkdir -p $(BINDIR)
-	go build -o $(SERVER) server.go
+# Target to build the client executable
+$(CLIENT_BIN): $(CLIENT_SRC)
+	go build -o $(CLIENT_BIN) $(CLIENT_SRC)
 
-build_client:
-	@mkdir -p $(BINDIR)
-	go build -o $(CLIENT) client.go
-
-run_server: build_server
-	@echo "Starting server:"
-	$(SERVER)
-
-run_client: build_client
-	@echo "Starting client:"
-	$(CLIENT)
-
-test: all
-	./test_cases.sh
-
+# Target to clean up compiled executables
 clean:
-	rm -rf $(BINDIR)
+	rm -f $(SERVER_BIN) $(CLIENT_BIN)
 
+# This is the important part: a target to run the tests.
+# It ensures the binaries are up-to-date before running the test script.
+test: all
+	./$(TEST_SCRIPT)
+
+.PHONY: all clean test
