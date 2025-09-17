@@ -10,6 +10,28 @@ import (
     "strings"
 )
 
+// Preprocess input like '("foo", "bar")' into []string{"STRING:foo", "STRING:bar"}
+func preprocessTupleArg(arg string) []string {
+    arg = strings.TrimSpace(arg)
+    if strings.HasPrefix(arg, "(") && strings.HasSuffix(arg, ")") {
+        arg = arg[1 : len(arg)-1]
+        parts := strings.Split(arg, ",")
+        var result []string
+        for _, part := range parts {
+            part = strings.TrimSpace(part)
+            part = strings.Trim(part, "\"") // Remove surrounding quotes if present
+            if part == "?" {
+                result = append(result, "?")
+            } else {
+                result = append(result, "STRING:"+part)
+            }
+        }
+        return result
+    }
+    // If not parenthesized, fallback (assume already well-formed)
+    return strings.Fields(arg)
+}
+
 // Parse tuple arguments into a slice of interface{}
 func parseTuple(args []string) []interface{} {
     tuple := make([]interface{}, 0, len(args))
@@ -85,9 +107,9 @@ func describeTuple(op string, tuple []interface{}) {
 func main() {
     host := flag.String("host", "localhost:8080", "server address")
 
-    outFlag := flag.String("out", "", "Tuple to insert, e.g. 'STRING:foo INT64:42'")
-    inFlag := flag.String("in", "", "Tuple template for deletion, e.g. 'STRING:foo ?'")
-    rdFlag := flag.String("rd", "", "Tuple template for read, e.g. 'STRING:foo ?'")
+    outFlag := flag.String("out", "", "Tuple to insert, e.g. 'STRING:foo INT64:42' or '(\"foo\", \"bar\")'")
+    inFlag := flag.String("in", "", "Tuple template for deletion, e.g. 'STRING:foo ?' or '(\"foo\", \"bar\")'")
+    rdFlag := flag.String("rd", "", "Tuple template for read, e.g. 'STRING:foo ?' or '(\"foo\", \"bar\")'")
 
     flag.Parse()
 
@@ -106,11 +128,13 @@ func main() {
     var op string
 
     if *outFlag != "" {
-        tuple = parseTuple(strings.Fields(*outFlag))
+        fields := preprocessTupleArg(*outFlag)
+        tuple = parseTuple(fields)
         req = map[string]interface{}{"cmd": "out", "tuple": tuple}
         op = "out"
     } else if *inFlag != "" {
-        tuple = parseTuple(strings.Fields(*inFlag))
+        fields := preprocessTupleArg(*inFlag)
+        tuple = parseTuple(fields)
         for i, v := range tuple {
             if s, ok := v.(string); ok && s == "?" {
                 tuple[i] = nil
@@ -119,7 +143,8 @@ func main() {
         req = map[string]interface{}{"cmd": "in", "pattern": tuple}
         op = "in"
     } else if *rdFlag != "" {
-        tuple = parseTuple(strings.Fields(*rdFlag))
+        fields := preprocessTupleArg(*rdFlag)
+        tuple = parseTuple(fields)
         for i, v := range tuple {
             if s, ok := v.(string); ok && s == "?" {
                 tuple[i] = nil
