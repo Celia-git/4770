@@ -1,0 +1,308 @@
+GNU Make 4.3
+Built for x86_64-pc-linux-gnu
+Copyright (C) 1988-2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Reading makefiles...
+Reading makefile 'Makefile'...
+Updating makefiles....
+ Considering target file 'Makefile'.
+  Looking for an implicit rule for 'Makefile'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.o'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.c'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.cc'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.C'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.cpp'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.p'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.f'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.F'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.m'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.r'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.s'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.S'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.mod'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.sh'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile,v'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'RCS/Makefile,v'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'RCS/Makefile'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 's.Makefile'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'SCCS/s.Makefile'.
+  Trying pattern rule with stem 'Makefile'.
+  Trying implicit prerequisite 'Makefile.o'.
+  Looking for a rule with intermediate file 'Makefile.o'.
+   Avoiding implicit rule recursion.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.c'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.cc'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.C'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.cpp'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.p'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.f'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.F'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.m'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.r'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.s'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.S'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.mod'.
+   Trying pattern rule with stem 'Makefile.o'.
+   Trying implicit prerequisite 'Makefile.o,v'.
+   Trying pattern rule with stem 'Makefile.o'.
+   Trying implicit prerequisite 'RCS/Makefile.o,v'.
+   Trying pattern rule with stem 'Makefile.o'.
+   Trying implicit prerequisite 'RCS/Makefile.o'.
+   Trying pattern rule with stem 'Makefile.o'.
+   Trying implicit prerequisite 's.Makefile.o'.
+   Trying pattern rule with stem 'Makefile.o'.
+   Trying implicit prerequisite 'SCCS/s.Makefile.o'.
+   Trying pattern rule with stem 'Makefile'.
+   Trying implicit prerequisite 'Makefile.c'.
+   Looking for a rule with intermediate file 'Makefile.c'.
+    Avoiding implicit rule recursion.
+    Avoiding implicit rule recursion.
+    Trying pattern rule with stem 'Makefile'.
+    Trying rule prerequisite 'msg.x'.
+  Found an implicit rule for 'Makefile'.
+     Considering target file 'msg.x'.
+      Looking for an implicit rule for 'msg.x'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.o'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.c'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.cc'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.C'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.cpp'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.p'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.f'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.F'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.m'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.r'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.s'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.S'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.mod'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.sh'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x,v'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'RCS/msg.x,v'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'RCS/msg.x'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 's.msg.x'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'SCCS/s.msg.x'.
+      Trying pattern rule with stem 'msg.x'.
+      Trying implicit prerequisite 'msg.x.o'.
+      Looking for a rule with intermediate file 'msg.x.o'.
+       Avoiding implicit rule recursion.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.c'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.cc'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.C'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.cpp'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.p'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.f'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.F'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.m'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.r'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.s'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.S'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.mod'.
+       Trying pattern rule with stem 'msg.x.o'.
+       Trying implicit prerequisite 'msg.x.o,v'.
+       Trying pattern rule with stem 'msg.x.o'.
+       Trying implicit prerequisite 'RCS/msg.x.o,v'.
+       Trying pattern rule with stem 'msg.x.o'.
+       Trying implicit prerequisite 'RCS/msg.x.o'.
+       Trying pattern rule with stem 'msg.x.o'.
+       Trying implicit prerequisite 's.msg.x.o'.
+       Trying pattern rule with stem 'msg.x.o'.
+       Trying implicit prerequisite 'SCCS/s.msg.x.o'.
+       Trying pattern rule with stem 'msg.x'.
+       Trying implicit prerequisite 'msg.x.c'.
+       Looking for a rule with intermediate file 'msg.x.c'.
+        Avoiding implicit rule recursion.
+        Avoiding implicit rule recursion.
+        Trying pattern rule with stem 'msg.x'.
+        Trying rule prerequisite 'msg.x'.
+      Found an implicit rule for 'msg.x'.
+      Finished prerequisites of target file 'msg.x'.
+      Prerequisite 'msg.x.o' of target 'msg.x' does not exist.
+     No need to remake target 'msg.x'.
+  Finished prerequisites of target file 'Makefile'.
+  Prerequisite 'Makefile.o' of target 'Makefile' does not exist.
+ No need to remake target 'Makefile'.
+Updating goal targets....
+Considering target file 'all'.
+ File 'all' does not exist.
+  Considering target file 'msg_server'.
+    Considering target file 'msg_svc.o'.
+      Considering target file 'msg_svc.c'.
+       Looking for an implicit rule for 'msg_svc.c'.
+       Trying pattern rule with stem 'msg_svc'.
+       Trying rule prerequisite 'msg.x'.
+       Found an implicit rule for 'msg_svc.c'.
+        Considering target file 'msg.x'.
+        File 'msg.x' was considered already.
+       Finished prerequisites of target file 'msg_svc.c'.
+       Prerequisite 'msg.x' is older than target 'msg_svc.c'.
+      No need to remake target 'msg_svc.c'.
+      Considering target file 'msg.h'.
+       Looking for an implicit rule for 'msg.h'.
+       Trying pattern rule with stem 'msg'.
+       Trying rule prerequisite 'msg.x'.
+       Found an implicit rule for 'msg.h'.
+        Pruning file 'msg.x'.
+       Finished prerequisites of target file 'msg.h'.
+       Prerequisite 'msg.x' is older than target 'msg.h'.
+      No need to remake target 'msg.h'.
+     Finished prerequisites of target file 'msg_svc.o'.
+     Prerequisite 'msg_svc.c' is older than target 'msg_svc.o'.
+     Prerequisite 'msg.h' is older than target 'msg_svc.o'.
+    No need to remake target 'msg_svc.o'.
+    Considering target file 'msg_proc.o'.
+      Considering target file 'msg_proc.cpp'.
+       Looking for an implicit rule for 'msg_proc.cpp'.
+       Trying pattern rule with stem 'msg_proc.cpp'.
+       Trying implicit prerequisite 'msg_proc.cpp,v'.
+       Trying pattern rule with stem 'msg_proc.cpp'.
+       Trying implicit prerequisite 'RCS/msg_proc.cpp,v'.
+       Trying pattern rule with stem 'msg_proc.cpp'.
+       Trying implicit prerequisite 'RCS/msg_proc.cpp'.
+       Trying pattern rule with stem 'msg_proc.cpp'.
+       Trying implicit prerequisite 's.msg_proc.cpp'.
+       Trying pattern rule with stem 'msg_proc.cpp'.
+       Trying implicit prerequisite 'SCCS/s.msg_proc.cpp'.
+       No implicit rule found for 'msg_proc.cpp'.
+       Finished prerequisites of target file 'msg_proc.cpp'.
+      No need to remake target 'msg_proc.cpp'.
+      Pruning file 'msg.h'.
+     Finished prerequisites of target file 'msg_proc.o'.
+     Prerequisite 'msg_proc.cpp' is older than target 'msg_proc.o'.
+     Prerequisite 'msg.h' is older than target 'msg_proc.o'.
+    No need to remake target 'msg_proc.o'.
+   Finished prerequisites of target file 'msg_server'.
+   Prerequisite 'msg_svc.o' is older than target 'msg_server'.
+   Prerequisite 'msg_proc.o' is older than target 'msg_server'.
+  No need to remake target 'msg_server'.
+  Considering target file 'msg_client'.
+    Considering target file 'msg_clnt.o'.
+      Considering target file 'msg_clnt.c'.
+       Looking for an implicit rule for 'msg_clnt.c'.
+       Trying pattern rule with stem 'msg_clnt'.
+       Trying rule prerequisite 'msg.x'.
+       Found an implicit rule for 'msg_clnt.c'.
+        Pruning file 'msg.x'.
+       Finished prerequisites of target file 'msg_clnt.c'.
+       Prerequisite 'msg.x' is older than target 'msg_clnt.c'.
+      No need to remake target 'msg_clnt.c'.
+      Pruning file 'msg.h'.
+     Finished prerequisites of target file 'msg_clnt.o'.
+     Prerequisite 'msg_clnt.c' is older than target 'msg_clnt.o'.
+     Prerequisite 'msg.h' is older than target 'msg_clnt.o'.
+    No need to remake target 'msg_clnt.o'.
+    Considering target file 'msg_client.o'.
+      Considering target file 'msg_client.cpp'.
+       Looking for an implicit rule for 'msg_client.cpp'.
+       Trying pattern rule with stem 'msg_client.cpp'.
+       Trying implicit prerequisite 'msg_client.cpp,v'.
+       Trying pattern rule with stem 'msg_client.cpp'.
+       Trying implicit prerequisite 'RCS/msg_client.cpp,v'.
+       Trying pattern rule with stem 'msg_client.cpp'.
+       Trying implicit prerequisite 'RCS/msg_client.cpp'.
+       Trying pattern rule with stem 'msg_client.cpp'.
+       Trying implicit prerequisite 's.msg_client.cpp'.
+       Trying pattern rule with stem 'msg_client.cpp'.
+       Trying implicit prerequisite 'SCCS/s.msg_client.cpp'.
+       No implicit rule found for 'msg_client.cpp'.
+       Finished prerequisites of target file 'msg_client.cpp'.
+      No need to remake target 'msg_client.cpp'.
+      Pruning file 'msg.h'.
+     Finished prerequisites of target file 'msg_client.o'.
+     Prerequisite 'msg_client.cpp' is older than target 'msg_client.o'.
+     Prerequisite 'msg.h' is older than target 'msg_client.o'.
+    No need to remake target 'msg_client.o'.
+   Finished prerequisites of target file 'msg_client'.
+   Prerequisite 'msg_clnt.o' is older than target 'msg_client'.
+   Prerequisite 'msg_client.o' is older than target 'msg_client'.
+  No need to remake target 'msg_client'.
+  Considering target file 'main'.
+    Considering target file 'main.o'.
+      Considering target file 'main.cpp'.
+       Looking for an implicit rule for 'main.cpp'.
+       Trying pattern rule with stem 'main.cpp'.
+       Trying implicit prerequisite 'main.cpp,v'.
+       Trying pattern rule with stem 'main.cpp'.
+       Trying implicit prerequisite 'RCS/main.cpp,v'.
+       Trying pattern rule with stem 'main.cpp'.
+       Trying implicit prerequisite 'RCS/main.cpp'.
+       Trying pattern rule with stem 'main.cpp'.
+       Trying implicit prerequisite 's.main.cpp'.
+       Trying pattern rule with stem 'main.cpp'.
+       Trying implicit prerequisite 'SCCS/s.main.cpp'.
+       No implicit rule found for 'main.cpp'.
+       Finished prerequisites of target file 'main.cpp'.
+      No need to remake target 'main.cpp'.
+     Finished prerequisites of target file 'main.o'.
+     Prerequisite 'main.cpp' is older than target 'main.o'.
+    No need to remake target 'main.o'.
+   Finished prerequisites of target file 'main'.
+   Prerequisite 'main.o' is older than target 'main'.
+  No need to remake target 'main'.
+ Finished prerequisites of target file 'all'.
+Must remake target 'all'.
+Successfully remade target file 'all'.
+make: Nothing to be done for 'all'.
