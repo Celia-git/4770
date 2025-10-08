@@ -1,105 +1,105 @@
 #include <iostream>
-
 #include <sqlite3.h>
-
 #include <string>
 
-int main() {
 
-    sqlite3* db;
-
-    char* errMsg = 0;
-
-    int rc;
-
-    // Open database
-
-    rc = sqlite3_open("test.db", &db);
-
-    if (rc) {
-
-        std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
-
-        return 1;
-
-    } else {
-
-        std::cout << "Opened database successfully" << std::endl;
-
-    }
-
-    // Create table
-
-    std::string sqlCreateTable = "CREATE TABLE IF NOT EXISTS USERS(ID INT PRIMARY KEY NOT NULL, NAME TEXT NOT NULL, AGE INT NOT NULL);";
-
-    rc = sqlite3_exec(db, sqlCreateTable.c_str(), 0, 0, &errMsg);
-
-    if (rc != SQLITE_OK) {
-
-        std::cerr << "SQL error: " << errMsg << std::endl;
-
-        sqlite3_free(errMsg);
-
-    } else {
-
-        std::cout << "Table created successfully" << std::endl;
-
-    }
-
-    // Insert data
-
-    std::string sqlInsert = "INSERT INTO USERS (ID,NAME,AGE) VALUES (1, 'Alice', 30);";
-
-    rc = sqlite3_exec(db, sqlInsert.c_str(), 0, 0, &errMsg);
-
-    if (rc != SQLITE_OK) {
-
-        std::cerr << "SQL error: " << errMsg << std::endl;
-
-        sqlite3_free(errMsg);
-
-    } else {
-
-        std::cout << "Records created successfully" << std::endl;
-
-    }
-
-    // Query data
-
-    std::string sqlSelect = "SELECT * from USERS;";
-
-    sqlite3_stmt* stmt;
-
-    rc = sqlite3_prepare_v2(db, sqlSelect.c_str(), -1, &stmt, 0);
-
-    if (rc == SQLITE_OK) {
-
-        while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-
-            int id = sqlite3_column_int(stmt, 0);
-
-            const unsigned char* name = sqlite3_column_text(stmt, 1);
-
-            int age = sqlite3_column_int(stmt, 2);
-
-            std::cout << "ID = " << id << ", NAME = " << name << ", AGE = " << age << std::endl;
-
-        }
-
-        sqlite3_finalize(stmt);
-
-    } else {
-
-        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
-
-    }
-
-    // Close database
-
-    sqlite3_close(db);
-
-    std::cout << "Database closed" << std::endl;
-
-    return 0;
-
+// Open database
+int open_db(sqlite3** db) {
+	/*
+	 * Fill this out
+	 */
+	return SQLITE_OK;
 }
+
+// Close database
+void close_db(sqlite3* db) {
+	sqlite3_close(db);
+}
+
+// Get bank id
+std::string get_bank_for_account(sqlite3* db, const std::string& account) {
+	std::strring bank_id;
+
+	return bank_id;
+
+// Business logic~ CREDIT
+int VB_credit(sqlite3* db, const std::string& account, int amount) {
+	std::string bank = get_bank_for_account(db, account);
+	if (bank.empty()) {
+		return -1;
+	}
+	if (bank == "BANK1") {
+		return RPC_call_B1_credit(account, amount);
+	} else if (bank == "BANK2") {
+		return RPC_call+B2_credit(account, amount);
+	}
+	else {
+		return -1;
+	}
+
+// Business logic: debit
+int VB_debit(sqlite3* db, const std::string& account, int amount) {
+	/*
+	 * implement business logic for debit
+	 * /
+}
+
+// Business logic: transfer
+int VB_transfer(sqlite3* db, const std::string& account1, const std::string& account2, int amount) {
+	std::string bank1 = get_bank_for_account(db, account1);
+	std::string bank2 = get_bank_for_account(db, account2);
+
+	if (bank1.empty() || bank2.empty()) {
+		return -1;
+	}
+	/*
+	 * COMPLETE business logic: transfer
+	 */
+}
+
+
+// Stub RPC call functions
+int RPC_call_B1_credit(const std::string& account, int amount);
+int RPC_call_B1_debit(const std::string& account, int amount);
+int RPC_call_B2_credit(const std::string& account, int amount);
+int RPC_call_B2_debit(const std::string& account, int amount);
+
+//  Usage: ./main  <command> <account> <amount>;
+int main(int argc, char* argv[]) {
+	if (argc < 4) {
+		std::cerr << "Usage: " << argv[0] << " <command> <account> <amount>\n";
+		return 1;
+	}
+
+	std::string command = argv[1];
+	std::string account = argv[2];
+	int amount = std::stoi(argv[3]);
+
+	sqlite3* db;
+	if (open_db(&db) != SQLITE_OK) return 1;
+
+	int result = -1;
+
+	if (command == "credit") {
+		result = VB_credit(db, account, amount);
+	}
+	else if (command == "debit") {
+		result = VB_debit(db, account, amount);
+	}
+	else {
+		std::cerr << "Invalid command: " << command << "\n";
+		close_db(db);
+		return 1;
+	}
+
+	if (result == 0) {
+		std::cout << command << " operation successful on account " << account << " amount " << amount << std::endl;
+	}
+	else {
+		std::cout << command << " operation failed with error code: " << result << std::endl;
+	}
+
+	close_db(db);
+	return 0;
+}
+
