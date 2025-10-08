@@ -36,12 +36,13 @@ int VB_credit(sqlite3* db, const std::string& account, int amount) {
 	else {
 		return -1;
 	}
+}
 
 // Business logic: debit
 int VB_debit(sqlite3* db, const std::string& account, int amount) {
 	/*
 	 * implement business logic for debit
-	 * /
+	 */
 }
 
 // Business logic: transfer
