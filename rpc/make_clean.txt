@@ -1,0 +1,1 @@
+rm -f msg_clnt.o msg_client.o msg_svc.o msg_proc.o main.o msg_client msg_server main msg.h msg_svc.c msg_clnt.c
