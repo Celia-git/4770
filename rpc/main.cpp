@@ -21,21 +21,17 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
 
 // Open database
 int open_db(sqlite3** db) {
-    // Open a database file named "banks.db"
     // This file is expected to contain a table that maps account to bank ID.
     int rc = sqlite3_open("banks.db", db);
     if (rc != SQLITE_OK) {
         std::cerr << "Cannot open database: " << sqlite3_errmsg(*db) << std::endl;
-        // The sqlite3_close() called in main won't hurt, even if open failed, but it's cleaner to handle it here.
-        // If sqlite3_open fails, it may or may not allocate the db handle. If it did, it should be closed.
-        // We'll return the error and let main's check handle the cleanup or early exit.
     } else {
-        // Optional: Create a dummy table for testing if it doesn't exist
+        // Create a dummy table for testing if it doesn't exist
         const char* sql = "CREATE TABLE IF NOT EXISTS accounts (account_num TEXT PRIMARY KEY, bank_id TEXT NOT NULL);";
-        // Optional: Insert dummy data
+        // Insert dummy data
         const char* insert_sql = 
-            "INSERT OR IGNORE INTO accounts VALUES ('12345678', 'BANK1');"
-            "INSERT OR IGNORE INTO accounts VALUES ('87654321', 'BANK2');";
+            "INSERT OR IGNORE INTO accounts VALUES ('12345', 'BANK1');"
+            "INSERT OR IGNORE INTO accounts VALUES ('54321', 'BANK2');";
         
         char *zErrMsg = 0;
         int create_rc = sqlite3_exec(*db, sql, 0, 0, &zErrMsg);
@@ -84,6 +80,7 @@ std::string get_bank_for_account(sqlite3* db, const std::string& account) {
 int VB_credit(sqlite3* db, const std::string& account, int amount) {
     std::string bank = get_bank_for_account(db, account);
     if (bank.empty()) {
+	std::cout << "Account not found or DB error" << std::endl; 
         return -1; // Account not found or DB error
     }
     if (bank == "BANK1") {
