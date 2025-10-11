@@ -25,9 +25,9 @@ int main(int argc, char **argv)
 
 	result = printmessage_1(message, clnt);
 	if (result == NULL) {
-		clnt_perror(clnt, "call failed");
+		clnt_perror(clnt, "FAIL");
 	} else {
-		std::cout << "Remote procedure call successful.  Result: " << *result << std::endl;
+		std::cout << "SUCCESS.  Result: " << *result << std::endl;
 	}
 	clnt_destroy(clnt);
 	return 0;

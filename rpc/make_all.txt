@@ -1,9 +1,1 @@
-rpcgen -N -C msg.x
-cc -g -I/usr/include/tirpc -c -o msg_svc.o msg_svc.c
-g++ -g -I/usr/include/tirpc -c -o msg_proc.o msg_proc.cpp
-g++ -g -I/usr/include/tirpc -o msg_server msg_svc.o msg_proc.o -ltirpc -lnsl
-cc -g -I/usr/include/tirpc -c -o msg_clnt.o msg_clnt.c
-g++ -g -I/usr/include/tirpc -c -o msg_client.o msg_client.cpp
-g++ -g -I/usr/include/tirpc -o msg_client msg_clnt.o msg_client.o -ltirpc -lnsl
 g++ -g -I/usr/include/tirpc -c -o main.o main.cpp
-g++ -g -I/usr/include/tirpc -o main main.o -lsqlite3

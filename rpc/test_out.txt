@@ -1,0 +1,8 @@
+Running middleware test...
+Testing: credit A12345 100
+Initial amount in A12345: account_num = A12345
+bank_id = BANK1
+credit operation successful on account A12345 amount 100
+Current amount in A12345: account_num = A12345
+bank_id = BANK1
+Test Failed: expected success message not found for 'credit A12345 100'.

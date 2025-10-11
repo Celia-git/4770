@@ -60,11 +60,54 @@ clean:
 
 test: $(SQLITE_EXE)
 	@echo "Running middleware test..."
-	@output=$$(./$(SQLITE_EXE) credit A12345 100); \
+
+	@output=$$(./$(SQLITE_EXE) credit A12345 100 2>&1); \
+	echo "Testing: credit A12345 100"; \
 	echo "$$output"; \
-	if echo "$$output" | grep -q "success\|credited\|updated"; then \
-		echo "Test Passed: credit command executed successfully."; \
+	if echo "$$output" | grep -q SUCCESS; then \
+		echo "Test Passed: credit A12345 100\n"; \
 	else \
-		echo "Test Failed: expected success message not found."; \
+		echo "Test Failed: expected success message not found for 'credit A12345 100'.\n"; \
 		exit 1; \
 	fi
+
+	@output=$$(./$(SQLITE_EXE) credit B12345 100 2>&1); \
+	echo "Testing: credit B12345 100"; \
+	echo "$$output"; \
+	if echo "$$output" | grep -q SUCCESS; then \
+		echo "Test Passed: credit B12345 100\n"; \
+	else \
+		echo "Test Failed: expected success message not found for 'credit B12345 100'.\n"; \
+		exit 1; \
+	fi
+
+	@output=$$(./$(SQLITE_EXE) transfer A12345 B12345 25 2>&1); \
+	echo "Testing: transfer A12345 B12345 25"; \
+	echo "$$output"; \
+	if echo "$$output" | grep -q SUCCESS; then \
+		echo "Test Passed: transfer A12345 B12345 25\n"; \
+	else \
+		echo "Test Failed: expected success message not found for 'transfer A12345 B12345 25'.\n"; \
+		exit 1; \
+	fi
+
+	@output=$$(./$(SQLITE_EXE) transfer B12345 A12345 10 2>&1); \
+	echo "Testing: transfer B12345 A12345 10"; \
+	echo "$$output"; \
+	if echo "$$output" | grep -q SUCCESS; then \
+		echo "Test Passed: transfer B12345 A12345 10\n"; \
+	else \
+		echo "Test Failed: expected success message not found for 'transfer B12345 A12345 10'.\n"; \
+		exit 1; \
+	fi
+
+	@output=$$(./$(SQLITE_EXE) transfer B12345 A12345 120 2>&1); \
+	echo "Testing: transfer B12345 A12345 120"; \
+	echo "$$output"; \
+	if echo "$$output" | grep -q FAILURE; then \
+		echo "Test Passed: transfer B12345 A12345 120\n"; \
+	else \
+		echo "Test Failed: expected success message not found for 'transfer B12345 A12345 120' Is it possible that B12345 has too much money in his account?  If so, change this test case so that he's trying to send more.\n"; \
+		exit 1; \
+	fi
+
