@@ -1,5 +1,3 @@
-Here is a structured 4-hour study plan broken into 20-30 minute sessions tailored to your Exam 2 topics on threads and processes, virtualization, client-server interaction, and layered communication models from chapters 3 and 4. It includes focused study points and practice quiz questions per session.
-
 ***
 
 ### Session 1: Threads and Processes (25 mins)
@@ -85,16 +83,3 @@ Here is a structured 4-hour study plan broken into 20-30 minute sessions tailore
 3. Name and briefly describe the three ZeroMQ socket patterns.
 
 ***
-
-This plan segments your study time for efficient absorption and retention with active recall quizzes to check understanding for each core topic. Reviewing Python examples, drawing diagrams, and focusing on trade-offs in design as noted in your exam tips will further enhance readiness.
-
-Good luck with your exam!
-
-[1](https://ibug.doc.ic.ac.uk/media/uploads/documents/example_machine_learning_exam_questions.pdf)
-[2](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Google-Machine-Learning-Certification-Sample-Questions)
-[3](https://www.sas.com/content/dam/SAS/documents/technical/certification/sample-test/machine-learning-specialist.pdf)
-[4](https://www.seas.upenn.edu/~cis520/exams/final2017_solutions.pdf)
-[5](https://www.cs.cmu.edu/~epxing/Class/10701-20/old-exams.html)
-[6](https://github.com/fatosmorina/machine-learning-exams)
-[7](https://www.reddit.com/r/AWSCertifications/comments/1gsfutv/found_this_aws_ai_practitioner_and_machine/)
-
