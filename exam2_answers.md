@@ -1,5 +1,3 @@
-Answer Key for Exam 2 Study Guide
-
 ***
 
 ### Session 1: Threads and Processes
@@ -124,16 +122,3 @@ Answer Key for Exam 2 Study Guide
 3. Request-Reply supports synchronous communication; Publish-Subscribe enables message broadcasting; Pipeline supports asynchronous streaming.
 
 ***
-
-This detailed answer key should sharpen your understanding for each exam topic and prepare you for related quiz questions effectively. Good luck!
-
-[1](https://www.backblaze.com/blog/whats-the-diff-programs-processes-and-threads/)
-[2](https://www.techprep.app/blog/process-vs-thread)
-[3](https://www.geeksforgeeks.org/operating-systems/difference-between-process-and-thread/)
-[4](https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread)
-[5](https://workat.tech/core-cs/tutorial/processes-and-threads-os-6iboki1s2y3t)
-[6](https://www.linkedin.com/posts/alexxubyte_systemdesign-coding-interviewtips-activity-7383176861406633984-TrYt)
-[7](https://learn.microsoft.com/en-us/windows/win32/procthread/processes-and-threads)
-[8](https://www.reddit.com/r/computerscience/comments/1b1y7jv/what_are_the_importance_of_processes_and_threads/)
-[9](https://www.ibm.com/docs/en/aix/7.2.0?topic=programming-understanding-threads-processes)
-[10](https://www.youtube.com/watch?v=4rLW7zg21gI)
